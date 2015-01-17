@@ -1,23 +1,43 @@
-if (Meteor.isClient) {
-  // counter starts at 0
-  Session.setDefault("counter", 0);
+Articles = new Mongo.Collection("articles");
 
-  Template.hello.helpers({
-    counter: function () {
-      return Session.get("counter");
+if (Meteor.isClient) {
+  Meteor.subscribe("articles");
+
+  Template.body.helpers({
+    articles: function () {
+      return Articles.find({}, { sort: { createdAt: -1 }});
     }
   });
 
-  Template.hello.events({
-    'click button': function () {
-      // increment the counter when button is clicked
-      Session.set("counter", Session.get("counter") + 1);
+  Template.body.events({
+    "submit form.new-article": function (event) {
+      event.preventDefault();
+
+      var article = {
+        title: $(event.currentTarget).find("[name=title]").val(),
+        content: $(event.currentTarget).find("[name=content]").val()
+      };
+
+      Meteor.call("addArticle", article);
+
+      event.target.title.value = "";
+      event.target.content.value = "";
     }
   });
 }
 
+Meteor.methods({
+  addArticle: function (article) {
+    Articles.insert({
+      title: article.title,
+      content: article.content,
+      createdAt: new Date()
+    });
+  }
+});
+
 if (Meteor.isServer) {
-  Meteor.startup(function () {
-    // code to run on server at startup
+  Meteor.publish("articles", function () {
+    return Articles.find();
   });
 }
