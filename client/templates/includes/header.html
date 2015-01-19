@@ -1,12 +1,4 @@
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title>wiki</title>
-</head>
-
-<body>
+<template name="header">
     <nav class="navbar navbar-default">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -28,24 +20,4 @@
             </div>
         </div>
     </nav>
-
-    <div class="container-fluid">
-        <h1>List of articles <small>Subtext...</small></h1>
-
-        <form class="new-article">
-            <input type="text" name="title" placeholder="Name of the article" />
-            <textarea name="content" placeholder="Content of the article"></textarea>
-            <input type="submit" name="submit">
-        </form>
-
-        <ul>
-            {{#each articles}}
-                {{> article}}
-            {{/each}}
-        </ul>
-    </div>
-</body>
-
-<template name="article">
-    <li>{{title}} - {{content}}</li>
 </template>

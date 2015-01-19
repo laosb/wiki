@@ -7,3 +7,5 @@
 meteor-platform
 fourseven:scss
 mizzao:bootstrap-3
+sacha:spin
+iron:router
